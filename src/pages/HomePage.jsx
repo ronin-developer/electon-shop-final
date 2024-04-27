@@ -8,6 +8,8 @@ import CardProductComponent from "../components/CardProductComponent";
 import { FaList } from 'react-icons/fa'
 import { IoGridOutline } from "react-icons/io5";
 
+import {motion} from "framer-motion";
+
 function HomePage() {
 
   const [activeView, setActiveView] = useState('listView');
@@ -21,7 +23,7 @@ function HomePage() {
 
   useEffect(() => {
     if (currentCategory === "allProducts") {
-      ProductService.getAllProducts(currentCategory)
+      ProductService.getAllProducts()
         .then((res) => dispatch(saveAllProductsAction(res.data.products)))
         .catch((err) => console.log(err));
     } else {
@@ -40,15 +42,29 @@ function HomePage() {
         <button onClick={() => setActiveView('gridView')} className={activeView === 'gridView' ? 'bg-primaryBlue p-[5px] rounded-[10px] text-textWhite' : 'p-[5px]'}>{''}<IoGridOutline size={30} /></button>
       </div>
 
-      {/* our products */}
-      {/* wrapper div */}
-      <div className={activeView === 'listView' ? 'grid grid-cols-1 gap-[20px] mt-[20px]' : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 place-items-center gap-[20px] mt-[20px]'}>
-        {allProducts.map((product) => {
-          return <CardProductComponent key={product.id} product={product} />;
-        })}
-      </div>
-    </main>
-  );
+	{/* Our products */}
+			{/* wrapper div */}
+			<motion.div
+				initial={{ opacity: 0, scale: 0.5 }}
+				animate={{ opacity: 1, scale: 1 }}
+				transition={{ duration: 0.5 }}
+				className={
+					activeView === 'listView'
+						? 'grid grid-cols-1 gap-[20px] mt-[20px]'
+						: 'grid grid-cols-1 md:gird-cols-2 lg:grid-cols-3 2xl:grid-cols-4 place-items-center gap-[20px] mt-[20px]'
+				}>
+				{allProducts.map((product) => {
+					return (
+						<CardProductComponent
+							activeView={activeView}
+							key={product.id}
+							product={product}
+						/>
+					);
+				})}
+			</motion.div>
+		</main>
+	);
 }
 
 export default HomePage;

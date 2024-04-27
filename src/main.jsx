@@ -17,6 +17,7 @@ import { ClerkProvider } from "@clerk/clerk-react";
 // redux
 import { Provider } from "react-redux";
 import store from "./store/store.js";
+import FavoritePage from "./pages/FavoritePage.jsx";
 
 // Import your publishable key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: "/cart",
         element: <CartPage />,
+      },
+      {
+        path: '/favorite',
+        element: <FavoritePage />
       },
     ],
   },

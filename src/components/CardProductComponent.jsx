@@ -1,10 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Rating } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { saveInCartAction } from "../store/cartSlice";
+
+import { motion } from 'framer-motion'
 
 function CardProductComponent({ product, activeView }) {
+
+  const dispatch = useDispatch();
+
+  function handleAddToCart() {
+    dispatch(saveInCartAction(product));
+  }
+
   return (
-    <div
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 1.1 }}
       className={
         activeView === "listView"
           ? "w-full flex items-center justify-between border-primaryBlue border-b pb-[15px]"
@@ -45,13 +58,23 @@ function CardProductComponent({ product, activeView }) {
           readOnly
         />
       </div>
-      <Link
-        to={`/singleProduct/${product.id}`}
-        className="bg-primaryBlue text-textWhite px-4 py-2 mb-2 rounded-lg hover:bg-secondaryYelow transition-all duration-200"
-      >
-        View Detail
-      </Link>
-    </div>
+
+      <div className="py-5 flex gap-[10px] items-center justify-center">
+        <Link
+          to={`/singleProduct/${product.id}`}
+          className="bg-primaryBlue text-textWhite px-4 py-2 mb-2 rounded-lg hover:bg-secondaryYelow transition-all duration-200"
+        >
+          View Detail
+        </Link>
+
+        <Link
+          to='/cart'
+          className='bg-secondaryYelow text-textWhite px-[16px] py-[8px] rounded-xl shadow-lg'
+          onClick={handleAddToCart}>
+          Add To Cart
+        </Link>
+      </div>
+    </motion.div >
   );
 }
 

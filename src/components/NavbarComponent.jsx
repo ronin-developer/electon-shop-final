@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import HeadingComponent from "./HeadingComponent";
@@ -17,12 +18,13 @@ import CategoryComponent from "./CategoryComponent";
 import { useSelector } from "react-redux";
 
 function NavbarComponent() {
-  const {totalProduct} = useSelector((state) => state.cartStore);
+  const { totalProduct } = useSelector((state) => state.cartStore);
+  const { favoriteTotal } = useSelector((state) => state.favoriteStore) || 0;
 
   return (
     <div className="">
       <HeadingComponent />
-      <nav className="bg-primaryBlue h-full lg:h-[100px] py-5s">
+      <nav className="bg-primaryBlue h-full lg:h-[100px] py-[20px]">
         <div className="container mx-auto flex-col lg:flex-row flex items-center h-full justify-between">
           {/* logo */}
           <Link to="/">
@@ -45,6 +47,7 @@ function NavbarComponent() {
           <div>
             <ul className="flex-center gap-[20px]">
               <li className="flex-center">
+              <CiUser color="white" size={30} />
                 <SignedOut>
                   <SignInButton />
                 </SignedOut>
@@ -66,8 +69,8 @@ function NavbarComponent() {
               <li className="flex-center gap-10px">
                 <div className="flex-center">
                   <CiHeart color="white" size={25} />
-                  <span className="badge">0</span>
-                  <Link to={"/"} className="text-textWhite">
+                  <span className="badge">{favoriteTotal}</span>
+                  <Link to={"/favorite"} className="text-textWhite">
                     Favorite
                   </Link>
                 </div>
